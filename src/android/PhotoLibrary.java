@@ -63,7 +63,7 @@ public class PhotoLibrary extends CordovaPlugin {
               final double chunkTimeSec = options.getDouble("chunkTimeSec");
               final boolean includeAlbumData = options.getBoolean("includeAlbumData");
 
-              if (!cordova.hasPermission(READ_EXTERNAL_STORAGE)) {
+              if (!cordova.hasPermission(READ_EXTERNAL_STORAGE) && !(cordova.hasPermission(READ_MEDIA_IMAGES) && cordova.hasPermission(READ_MEDIA_VIDEO) && cordova.hasPermission(READ_MEDIA_AUDIO))) {
                 callbackContext.error(service.PERMISSION_ERROR);
                 return;
               }
@@ -100,7 +100,7 @@ public class PhotoLibrary extends CordovaPlugin {
           public void run() {
             try {
 
-              if (!cordova.hasPermission(READ_EXTERNAL_STORAGE)) {
+              if (!cordova.hasPermission(READ_EXTERNAL_STORAGE) && !(cordova.hasPermission(READ_MEDIA_IMAGES) && cordova.hasPermission(READ_MEDIA_VIDEO) && cordova.hasPermission(READ_MEDIA_AUDIO))) {
                 callbackContext.error(service.PERMISSION_ERROR);
                 return;
               }
@@ -128,7 +128,7 @@ public class PhotoLibrary extends CordovaPlugin {
               final int thumbnailHeight = options.getInt("thumbnailHeight");
               final double quality = options.getDouble("quality");
 
-              if (!cordova.hasPermission(READ_EXTERNAL_STORAGE)) {
+              if (!cordova.hasPermission(READ_EXTERNAL_STORAGE) && !(cordova.hasPermission(READ_MEDIA_IMAGES) && cordova.hasPermission(READ_MEDIA_VIDEO) && cordova.hasPermission(READ_MEDIA_AUDIO))) {
                 callbackContext.error(service.PERMISSION_ERROR);
                 return;
               }
@@ -152,7 +152,7 @@ public class PhotoLibrary extends CordovaPlugin {
 
               final String photoId = args.getString(0);
 
-              if (!cordova.hasPermission(READ_EXTERNAL_STORAGE)) {
+              if (!cordova.hasPermission(READ_EXTERNAL_STORAGE) && !(cordova.hasPermission(READ_MEDIA_IMAGES) && cordova.hasPermission(READ_MEDIA_VIDEO) && cordova.hasPermission(READ_MEDIA_AUDIO))) {
                 callbackContext.error(service.PERMISSION_ERROR);
                 return;
               }
@@ -201,7 +201,7 @@ public class PhotoLibrary extends CordovaPlugin {
               final String url = args.getString(0);
               final String album = args.getString(1);
 
-              if (!cordova.hasPermission(WRITE_EXTERNAL_STORAGE)) {
+              if (!cordova.hasPermission(WRITE_EXTERNAL_STORAGE) && !(cordova.hasPermission(READ_MEDIA_IMAGES) && cordova.hasPermission(READ_MEDIA_VIDEO) && cordova.hasPermission(READ_MEDIA_AUDIO))) {
                 callbackContext.error(service.PERMISSION_ERROR);
                 return;
               }
@@ -209,7 +209,11 @@ public class PhotoLibrary extends CordovaPlugin {
               service.saveImage(getContext(), cordova, url, album, new PhotoLibraryService.JSONObjectRunnable() {
                 @Override
                 public void run(JSONObject result) {
-                  callbackContext.success(result);
+                  if(result == null){
+                    callbackContext.success();
+                  }else {
+                    callbackContext.success(result);
+                  }
                 }
               });
 
@@ -229,7 +233,7 @@ public class PhotoLibrary extends CordovaPlugin {
               final String url = args.getString(0);
               final String album = args.getString(1);
 
-              if (!cordova.hasPermission(WRITE_EXTERNAL_STORAGE)) {
+              if (!cordova.hasPermission(WRITE_EXTERNAL_STORAGE) && !(cordova.hasPermission(READ_MEDIA_IMAGES) && cordova.hasPermission(READ_MEDIA_VIDEO) && cordova.hasPermission(READ_MEDIA_AUDIO))) {
                 callbackContext.error(service.PERMISSION_ERROR);
                 return;
               }
@@ -347,6 +351,9 @@ public class PhotoLibrary extends CordovaPlugin {
 
   private static final String READ_EXTERNAL_STORAGE = android.Manifest.permission.READ_EXTERNAL_STORAGE;
   private static final String WRITE_EXTERNAL_STORAGE = Manifest.permission.WRITE_EXTERNAL_STORAGE;
+  private static final String READ_MEDIA_IMAGES = Manifest.permission.READ_MEDIA_IMAGES;
+  private static final String READ_MEDIA_VIDEO = Manifest.permission.READ_MEDIA_VIDEO;
+  private static final String READ_MEDIA_AUDIO = Manifest.permission.READ_MEDIA_AUDIO;
   private static final int REQUEST_AUTHORIZATION_REQ_CODE = 0;
 
   private PhotoLibraryService service;
