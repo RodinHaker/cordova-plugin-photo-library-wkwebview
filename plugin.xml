@@ -17,9 +17,9 @@ version="3.0.3" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="
         </config-file>
         <config-file target="AndroidManifest.xml" parent="/*">
             <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-            <uses-permission android:minSdkVersion="33" android:name="android.permission.READ_MEDIA_IMAGES"/>
-            <uses-permission android:minSdkVersion="33" android:name="android.permission.READ_MEDIA_VIDEO"/>
-            <uses-permission android:minSdkVersion="33" android:name="android.permission.READ_MEDIA_AUDIO"/>
+            <uses-permission android:minSdkVersion="34" android:name="android.permission.READ_MEDIA_IMAGES"/>
+            <uses-permission android:minSdkVersion="34" android:name="android.permission.READ_MEDIA_VIDEO"/>
+            <uses-permission android:minSdkVersion="34" android:name="android.permission.READ_MEDIA_AUDIO"/>
             <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
         </config-file>
         <source-file src="src/android/PhotoLibrary.java" target-dir="src/com/terikon/cordova/photolibrary" />
